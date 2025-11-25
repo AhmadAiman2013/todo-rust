@@ -1,0 +1,12 @@
+{
+  "db_name": "MySQL",
+  "query": "\n            INSERT INTO tasks (user_id, title, description, due_date, recurrence_rule, recurrence_start_date, recurrence_end_date)\n            VALUES (?, ?, ?, ?, ?, ?, ?)\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 7
+    },
+    "nullable": []
+  },
+  "hash": "077aa6d4172deb85efa44583862a8b050e9e97bca049af1a53b9258d1ef88772"
+}

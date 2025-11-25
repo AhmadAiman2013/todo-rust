@@ -1,7 +1,6 @@
 use axum::extract::{FromRequest, FromRequestParts, Request, Path as AxumPath, rejection::JsonRejection::*};
 use axum::http::request::Parts;
 use axum::Json;
-use log::log;
 use serde::de::DeserializeOwned;
 use crate::error::AppError;
 
