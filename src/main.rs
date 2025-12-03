@@ -17,7 +17,11 @@ use state::AppState;
 #[tokio::main]
 async fn main() {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
-    dotenv::dotenv().ok();
+
+    if cfg!(debug_assertions) {
+        info!("Running in debug mode");
+        dotenv::dotenv().ok();
+    }
 
     let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
 

@@ -27,5 +27,12 @@ impl TaskService {
         Ok(task_id)
     }
 
+    pub async fn update_task(&self, user_id: &str, task_id: u64, request: &CreateTaskRequest) -> AppResult<()> {
+        self.repo.update_task(user_id, task_id, request).await
+    }
 
+    pub async fn delete_task(&self, task_id: u64) -> AppResult<()> {
+        self.repo.delete_task(task_id).await
+    }
+    
 }

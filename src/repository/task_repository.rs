@@ -90,4 +90,50 @@ impl TaskRepository {
         Ok(result.last_insert_id())
     }
 
+
+    pub async fn update_task(&self, user_id: &str, task_id: u64, request: &CreateTaskRequest) -> AppResult<()> {
+        let result = sqlx::query!(
+            r#"
+            UPDATE tasks
+            SET title = ?, description = ?, due_date = ?, recurrence_rule = ?, recurrence_start_date = ?, recurrence_end_date = ?
+            WHERE id = ? AND user_id = ?
+            "#,
+            request.title,
+            request.description,
+            request.due_date,
+            request.recurrence_rule as TaskRecurrence,
+            request.recurrence_start_date,
+            request.recurrence_end_date,
+            task_id,
+            user_id
+        )
+        .execute(&self.pool)
+        .await?;
+
+        if result.rows_affected() == 0 {
+            return Err(AppError::NotFound(format!("Task with id {} not found for user {}", task_id, user_id)));
+        }
+
+        Ok(())
+         
+    }
+    
+    pub async fn delete_task(&self, task_id: u64) -> AppResult<()> {
+        let result = sqlx::query!(
+            r#"
+            DELETE FROM tasks
+            WHERE id = ?
+            "#,
+            task_id
+        )
+        .execute(&self.pool)
+        .await?;
+
+        if result.rows_affected() == 0 {
+            return Err(AppError::NotFound(format!("Task with id {} not found", task_id)));
+        }
+
+        Ok(())
+    }
+
 }
